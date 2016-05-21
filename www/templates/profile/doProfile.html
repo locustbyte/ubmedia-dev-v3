@@ -1,0 +1,154 @@
+<ion-view view-title="{logged in name}" class="profile-view">
+	<ion-nav-buttons side="right">
+		<a href="#">
+			<i class="ion-ios-gear fa-2x text-inverse"></i>
+		</a>
+	</ion-nav-buttons>
+	<ion-content>
+		<div class="profile-short">
+			<div class="row padding10">
+				<div class="col user-image">
+					<img src="https://lh3.googleusercontent.com/-stUzXYckEpQ/AAAAAAAAAAI/AAAAAAAAAAA/yB3BY5sMQag/photo.jpg">
+				</div>
+				<div class="col col-75 user-stats">
+					<div class="row center">
+						<div class="col">
+							<p class="number">22</p>
+							<p>posts</p>
+						</div>
+						<div class="col">
+							<p class="number">56</p>
+							<p>followers</p>
+						</div>
+						<div class="col">
+							<p class="number">22</p>
+							<p>following</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row padding10">
+				<div class="col">
+					<p>Armandtan</p>
+					<p>My little saying of life here blach blach</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="row functions">
+		  <div class="col">
+		  	<i class="ion-ios-keypad-outline" ng-click="listView = false"></i>
+		  </div>
+		  <div class="col">
+		  	<i class="ion-ios-list-outline" ng-click="listView = true"></i>
+		  </div>
+		  <div class="col">
+		  	<i class="ion-ios-location-outline"></i>
+		  </div>
+		  <div class="col">
+		  	<i class="ion-ios-person-outline"></i>
+		  </div>
+		</div>
+		<div class="grid-view" ng-show="listView == false">
+			<div class="row user-recordings">
+			  <div class="col">
+			  	<img src="http://static.planetminecraft.com/files/resource_media/screenshot/1341/11Minecraft-Creeper-Wallpaper-1080p-HD-250x250up_6509836_lrg.jpg" />
+			  </div>
+			  <div class="col">
+			  	<img src="https://lh3.googleusercontent.com/-5xTZULsIIgg/AAAAAAAAAAI/AAAAAAAAAAA/EVnB3fWD2yM/photo.jpg" />
+			  </div>
+			  <div class="col">
+			  	<img src="https://lh3.googleusercontent.com/-stUzXYckEpQ/AAAAAAAAAAI/AAAAAAAAAAA/yB3BY5sMQag/photo.jpg" />
+			  </div>
+			</div>
+			<div class="row user-recordings">
+			  <div class="col">
+			  	<img src="http://www.gobrickless.com/wp-content/uploads/2012/08/250x250-1.jpg" />
+			  </div>
+			  <div class="col">
+			  	<img src="http://skinn.in/250x250.png" />
+			  </div>
+			  <div class="col">
+			  	<img src="http://ilovelibraries.org/librariestransform/sites/default/files//Libraries-Transform-Yellow-250x250.gif" />
+			  </div>
+			</div>
+			<div class="row user-recordings">
+			  <div class="col">
+			  	<img src="http://www.benchcomics.com/wp-content/uploads/2009/06/wolverine-250x250.png" />
+			  </div>
+			  <div class="col">
+			  	<img src="https://lh3.googleusercontent.com/-fKbROeCkACI/AAAAAAAAAAI/AAAAAAAAAAA/1BZCw6mOuRo/photo.jpg" />
+			  </div>
+			  <div class="col">
+			  	<img src="http://www.mediafire.com/images/logos/mf_logo250x250.png" />
+			  </div>
+			</div>
+		</div>
+
+		<div class="list-view" ng-show="listView == true">
+			<div class="post-item">
+				<div class="row user-post-info">
+					<div class="col user-image">
+						<img src="https://lh3.googleusercontent.com/-fKbROeCkACI/AAAAAAAAAAI/AAAAAAAAAAA/1BZCw6mOuRo/photo.jpg">
+					</div>
+					<div class="col right-info">
+						5w
+					</div>
+				</div>
+				<div class="row user-recordings">
+				  <div class="col">
+				  	<img src="https://lh3.googleusercontent.com/-stUzXYckEpQ/AAAAAAAAAAI/AAAAAAAAAAA/yB3BY5sMQag/photo.jpg" />
+				  </div>
+				</div>
+				<div class="row user-post-interaction">
+					<div class="col left">
+						<i class="ion-ios-heart-outline"></i>
+						<i class="ion-ios-chatbubble-outline"></i>
+						<i class="ion-ios-redo-outline"></i>
+					</div>
+					<div class="col right">
+						<i class="ion-ios-more-outline"></i>
+					</div>
+				</div>
+				<div class="row user-post-interaction-responses">
+					<div class="col left">
+						<i class="ion-ios-heart"></i> Nigel Wilson, enyaleigh18
+						<p><strong>armandtan</strong> Dubstep all the way my brothers and sisters!</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="post-item">
+				<div class="row user-post-info">
+					<div class="col user-image">
+						<img src="https://lh3.googleusercontent.com/-fKbROeCkACI/AAAAAAAAAAI/AAAAAAAAAAA/1BZCw6mOuRo/photo.jpg">
+					</div>
+					<div class="col right-info">
+						5w
+					</div>
+				</div>
+				<div class="row user-recordings">
+				  <div class="col">
+				  	<img src="https://lh3.googleusercontent.com/-5xTZULsIIgg/AAAAAAAAAAI/AAAAAAAAAAA/EVnB3fWD2yM/photo.jpg" />
+				  </div>
+				</div>
+				<div class="row user-post-interaction">
+					<div class="col left">
+						<i class="ion-ios-heart-outline"></i>
+						<i class="ion-ios-chatbubble-outline"></i>
+						<i class="ion-ios-redo-outline"></i>
+					</div>
+					<div class="col right">
+						<i class="ion-ios-more-outline"></i>
+					</div>
+				</div>
+				<div class="row user-post-interaction-responses">
+					<div class="col left">
+						<i class="ion-ios-heart"></i> Sarah Wilcox, reelnrg
+						<p><strong>armandtan</strong> Mushy mushroom head returns!</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</ion-content>
+</ion-view>

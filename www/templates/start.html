@@ -1,0 +1,50 @@
+<ion-view class="startView" hide-nav-bar="true">
+  <ion-slide-box>
+    <ion-slide>
+      <ion-content class="padding">
+        <div class="title">Welcome</div>
+        <div class="content">
+          <div class="logo">
+            <img src="img/logoCircle.png" />
+          </div>
+          <div class="appName">
+            UBeMedia
+          </div>
+          <p>Ready to share...?.</p>
+        </div>
+      </ion-content>
+      <div class="footer">
+          <button class="button button-assertive beginBtn" ng-click="nextSlide()">
+              <!-- <button class="button button-assertive beginBtn" ng-click="login()"> -->
+              BEGIN HERE
+          </button>
+          <p>Already have an account?</p>
+          <p><a ng-click="showLogin()" class="loginNow">Sign in now!</a></p>
+      </div>
+     <!--  <div class="box blue">
+        <button ng-click="nextSlide()">Next slide!</button>
+      </div> -->
+    </ion-slide>
+    <ion-slide>
+      <ion-content class="padding">
+            <div class="title">
+                <p>Select your topics</p>
+                <span>(You can add more later)</span>
+            </div>
+            <div class="row" ng-repeat="row in items | inSlicesOf:3">
+                <div class="col col-33 chooseCategory" ng-repeat="item in row" ng-click="clicked(item)" ng-class="{ active: item.selected }"><img src="img/categoryImages/{{item.CategoryImage}}" width="100%" /></div>
+            </div>
+        </ion-content>
+        <div class="footer">
+                <button class="button button-assertive beginBtn" ng-click="nextSlide('slide2');getIn()">
+                    DONE
+                </button>
+            </div>
+    </ion-slide>
+    <ion-slide>
+      <!-- <div class="box red">
+        Slide 3!
+      </div> -->
+    </ion-slide>
+  </ion-slide-box>
+</ion-view>

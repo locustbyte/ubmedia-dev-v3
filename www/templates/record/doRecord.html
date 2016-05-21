@@ -1,0 +1,50 @@
+<ion-view view-title="Record" class="record-view active-recording video-page show-page">
+    <ion-slide-box>
+        <ion-slide>
+            <ion-content class="padding">
+                <img id="startMediaBtn" ng-click="grabImage();" class="show" src="img/video/record-btn.png" />
+                <div style="position: absolute;top: -2000px;">
+                    <input type="file" id="mask-load-file" custom-on-change="uploadFile" name="file1" accept="audio/*;capture=microphone">
+                </div>
+                <div class="controlPrompt" ng-if="$root.mediaCheck == 'image' || $root.mediaCheck == 'video'"><img src="http://heatdata.com/resources/images/512/Swipe_Left.png" width="80px" />Swipe left to continue</div>
+                <div id="typeImage" ng-if="$root.mediaCheck == 'image'">
+                    <div>
+                        <img class="mediaActionImageStore" src="" class="" />
+                    </div>
+                </div>
+                <div id="typeVideo" ng-if="$root.mediaCheck == 'video'">
+                    <div>
+                        <video id="mediaActionVideoStore" src="" controls></video>
+                    </div>
+                </div>
+            </ion-content>
+        </ion-slide>
+        <ion-slide>
+            <ion-content class="padding recordContentBgScreen">
+
+                <div class="list">
+                  <label class="item item-input item-floating-label">
+                    <span class="input-label">News Title</span>
+                    <input type="text" placeholder="News Title">
+                  </label>
+                  <label class="item item-input item-floating-label">
+                    <span class="input-label">Summary</span>
+                    <input type="text" class="light" placeholder="Summary">
+                  </label>
+                  <label class="item item-input item-floating-label">
+                    <span class="input-label">The Story</span>
+                    <textarea type="text" rows="4" placeholder="The Story"></textarea>
+                  </label>
+                <button class="button button-block button-balanced">
+                  Save Story
+                </button>
+                </div>
+                </ion-content>
+        </ion-slide>
+        <ion-slide>
+            <ion-content class="padding recordContentBgScreen">
+                <img class="mediaActionImageStore" src="" class="" />
+            </ion-content>
+        </ion-slide>
+    </ion-slide-box>
+</ion-view>

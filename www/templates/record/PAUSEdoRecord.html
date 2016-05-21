@@ -1,0 +1,52 @@
+<ion-view view-title="Record" class="record-view active-recording">
+    <ion-content class="padding">
+        <div class="frame-square">
+            <div class="crop">
+                <img src="" id="canvasToThumb" style="width: 100%;" />
+            </div>
+        </div>
+        <div id="capture-button">
+            <label class="item-input-wrapper camma">
+                <i class="ion-ios-camera-outline animated pulse infinite"></i>
+                <input type="file" id="inputImage" accept="image/*;capture=camera" />
+            </label>
+        </div>
+
+        <div class="frame-square canvas">
+            <div class="crop">
+                <canvas id='maincanvas' data-caman-id="0"></canvas>
+            </div>
+        </div>
+
+        <video id='v'></video>  
+        <canvas id='c'></canvas>
+        <button id='grey'>Toggle Greyness</button>
+
+
+        <ion-scroll direction="x" class="wide-as-needed hide" id="filterContainer" style="display: block; overflow-x: hidden;">
+            <ul id="filters">
+                <li> <a href="#" id="resetbtn" class="btn">Reset Photo</a> </li>
+                <li> <a href="#" id="vintage">Vintage</a> </li>
+                <li> <a href="#" id="lomo">Lomo</a> </li>
+                <li> <a href="#" id="clarity">Clarity</a> </li>
+                <li> <a href="#" id="sinCity">Sin City</a> </li>
+                <li> <a href="#" id="sunrise">Sunrise</a> </li> 
+                <li> <a href="#" id="crossProcess">Cross Process</a> </li>
+                <li> <a href="#" id="orangePeel">Orange Peel</a> </li>
+                <li> <a href="#" id="love">Love</a> </li>
+                <li> <a href="#" id="grungy">Grungy</a> </li>
+                <li> <a href="#" id="jarques">Jarques</a> </li>
+                <li> <a href="#" id="pinhole">Pinhole</a> </li>
+                <li> <a href="#" id="oldBoot">Old Boot</a> </li>
+                <li> <a href="#" id="glowingSun">Glowing Sun</a> </li>
+                <!-- <li> <a href="#" id="hazyDays">Hazy Days</a> </li>
+                <li> <a href="#" id="herMajesty">Her Majesty</a> </li>
+                <li> <a href="#" id="nostalgia">Nostalgia</a> </li>
+                <li> <a href="#" id="hemingway">Hemingway</a> </li>
+                <li> <a href="#" id="concentrate">Concentrate</a> </li> -->
+            </ul>
+        </ion-scroll>
+
+       
+    </ion-content>
+</ion-view>

@@ -1,0 +1,2 @@
+var catSelected = [];
+var catItems = [];

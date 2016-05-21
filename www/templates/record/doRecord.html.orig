@@ -1,0 +1,91 @@
+<<<<<<< HEAD
+<ion-view view-title="Record" class="record-view active-recording video-page show-page">
+    <ion-slide-box>
+        <ion-slide>
+            <ion-content class="padding">
+                <img id="startMediaBtn" ng-click="grabImage();" class="show" src="img/video/record-btn.png" />
+                <div style="position: absolute;top: -2000px;">
+                    <input type="file" id="mask-load-file" custom-on-change="uploadFile" name="file1" accept="audio/*;capture=microphone">
+                </div>
+                <img id="mediaActionImageFiltered" />
+                <div id="typeImage">
+                    <div>
+                        <img id="mediaActionImageStore" [src]="fileBlob" class="" />
+                        <div>
+                            <button class="btn btn-primary" data-method="getCroppedCanvas" type="button">
+                                <span class="docs-tooltip" data-toggle="tooltip" title="$().cropper(&quot;getCroppedCanvas&quot;)"> Get Cropped Canvas</span>
+                            </button>
+                            <button id="sendToServer">Send to Server</button>
+                            <div class="preview_wrapper">
+                                <div class="preview"></div>
+                            </div>
+                            <div id="croppedImage"></div>
+                            <button type="button" class="btn btn-primary" data-method="getCanvasData" data-option="" data-target="#putData">
+                                <span class="docs-tooltip" data-toggle="tooltip" title="" data-original-title="$().cropper(&quot;getCanvasData&quot;)">
+	                    Get Canvas Data
+	                  </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div id="typeVideo" ng-if="isVideo == true">
+                    <div>
+                        <video id="mediaActionVideoStore" [src]="fileBlob" controls></video>
+                    </div>
+                </div>
+            </ion-content>
+        </ion-slide>
+        <ion-slide>
+            <ion-content class="padding">
+                two
+        </ion-slide>
+        <ion-slide>
+            <!-- <div class="box red">
+        Slide 3!
+      </div> -->
+        </ion-slide>
+=======
+<ion-view view-title="POST NEWS" class="record-view active-recording video-page show-page ">
+
+	<ion-slide-box>
+    <ion-slide>
+      <ion-content class="padding" scroll="false" class="scroll-content ionic-scroll scroll-content-false">
+        <img id="startMediaBtn" ng-click="grabImage();" class="show" src="img/video/record-btn.png" />
+		<div style="position: absolute;top: -2000px;">
+			<input type="file" id="mask-load-file" name="file1"  accept="audio/*;capture=microphone">
+		</div>
+      </ion-content>
+    </ion-slide>
+    <ion-slide>
+      <ion-content class="padding">
+      <div class="subject-text" style="position:absolute;width:100%;">
+        <input style="width: 98%;padding: 2%;border-radius: 3px;margin: 3px;background-color: rgba(255,255,255,0.8);color: #333;height: 50px;font-size: 18px;" type="text" name="firstname" value="Topic">
+
+      </div>
+      <div class="message-text" style="position:absolute;width:100%;">
+        <textarea style="width: 98%;padding: 2%;border-radius: 3px;margin: 3px;background-color: rgba(255,255,255,0.8);color: #333;font-size: 18px;" textarea rows="3" cols="50"> 
+</textarea>
+
+      </div>
+        <div class="image-holder">
+            <img src="img/imageStuff/eagle.jpg" />
+        </div>
+        <div>
+        <div class="lower-half" style="background-color:#fff;margin-top:5px; padding-top: 3px;">
+            <button style="    width: 100%;height: 50%;bottom: 0;margin-bottom: 1px;padding-top: 1px;" class="button button-assertive beginBtn" ng-click="nextSlide()">
+              <!-- <button class="button button-assertive beginBtn" ng-click="login()"> -->
+              POST
+          </button><button style="width: 100%;height: 50%;bottom: 0;" class="button button-assertive beginBtn" ng-click="nextSlide()">
+              <!-- <button class="button button-assertive beginBtn" ng-click="login()"> -->
+              CANCEL
+          </button>
+          
+          
+      </div>
+
+        </div>
+    </ion-slide>
+
+>>>>>>> de9d06ec3a33a4823fa06d1a81755522f31b8a34
+    </ion-slide-box>
+</ion-view>
