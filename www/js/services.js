@@ -11,7 +11,6 @@ angular.module('starter.services', [])
 
 
 
-
 .filter('inSlicesOf', 
     ['$rootScope',  
     function($rootScope) {

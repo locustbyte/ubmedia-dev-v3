@@ -65,7 +65,7 @@ angular.module('starter.controllers', [])
     $ionicSlideBoxDelegate.next();
   };
   $scope.getIn = function() {
-    $state.go('tab.record');
+    $state.go('tab.dash');
   };
 
   $http.get('http://www.youbmedia.com/php/getCategories.php').success(function(response){ //make a get request to mock json file.
@@ -148,10 +148,97 @@ angular.module('starter.controllers', [])
 
 
 ////// RECORD CONTROLLER //////
-.controller('RecordCtrl', function($scope, $rootScope, $timeout) {
+.controller('RecordCtrl', function($scope, $http, $rootScope, $timeout, $ionicModal, $sessionStorage) {
   $scope.settings = {
     enableFriends: true
   };
+
+  $scope.theNewPostInfo = [];
+
+  
+  var getNextNewID = $http({
+      method: "post",
+      //url: window.location.href + "php/test.php",
+      url: "http://nonsecure.teststuff.local/ubmedia-php/news_getNextID.php",
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+  });
+
+  // var startNewNewsItem = $http({
+  //     method: "post",
+  //     //url: window.location.href + "php/test.php",
+  //     url: "http://nonsecure.teststuff.local/ubmedia-php/news_getNextID.php",
+  //     data: $.param({'title' : "this"}),
+  //     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+  // });
+
+  getNextNewID.success(function (data) {
+      
+      $sessionStorage.nextNewsID = data.nextID;
+      console.log($sessionStorage.nextNewsID);
+
+  });
+
+  $ionicModal.fromTemplateUrl('templates/modal.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+
+  $scope.slideHasChanged = function(index){
+    console.log(index)
+  }
+
+  $scope.saveDetails = function(){
+
+    var newsData = {"title": $("#news_title").val(),"summary": $("#news_summary").val(), "detail": $("#news_detail").val()}
+
+    $scope.theNewPostInfo.push({newsData})
+    console.log($scope.theNewPostInfo)
+    // var saveNewsPostInfo = $http({
+    //     method: "post",
+    //     //url: window.location.href + "php/test.php",
+    //     url: "http://nonsecure.teststuff.local/ubmedia-php/news_saveNewStoryDetails.php",
+    //     data: $.param({
+    //       "id": $sessionStorage.nextNewsID,
+    //       "title": $("#news_title").val(),
+    //       "summary": $("#news_summary").val(),
+    //       "detail": $("#news_detail").val()
+    //     }),
+    //     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    // });
+
+    // saveNewsPostInfo.success(function (data) {
+        
+    //     console.log(data);
+
+    // });
+  }
+  $scope.createContact = function(u) {        
+    $scope.contacts.push({ name: u.firstName + ' ' + u.lastName });
+    $scope.modal.hide();
+  };
+
+  $scope.publishNewsItem = function(){
+    var saveNewsPostInfo = $http({
+        method: "post",
+        //url: window.location.href + "php/test.php",
+        url: "http://nonsecure.teststuff.local/ubmedia-php/news_saveNewStoryDetails.php",
+        data: $.param({
+          "media": $("#news_title").val(),
+          "media_Type": $("#news_title").val(),
+          "title": $("#news_title").val(),
+          "summary": $("#news_summary").val(),
+          "detail": $("#news_detail").val()
+        }),
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+    });
+
+    saveNewsPostInfo.success(function (data) {
+        
+        console.log(data);
+
+    });
+  }
 
   $scope.uploadFile = function(){
       var camNewsActionFile = event.target.files
@@ -176,14 +263,18 @@ angular.module('starter.controllers', [])
                 });
                 console.log($rootScope.mediaCheck)
                 $(".mediaActionImageStore").attr("src",e.target.result);
-                $(".controlPrompt").addClass("active");
+                $(".slider-slide").addClass("active");
+                $scope.theNewPostInfo.themedia.push(e.target.result);
+                console.log($scope.theNewPostInfo)
               } else {
                 $rootScope.$apply(function () {               // 3
                   $rootScope.mediaCheck = 'video';
                 });
                 console.log("video")
                 $("#mediaActionVideoStore").attr("src",e.target.result)
-                $(".controlPrompt").addClass("active");
+                $(".slider-slide").addClass("active");
+                $scope.theNewPostInfo.themedia = e.target.result;
+                console.log($scope.theNewPostInfo)
               }
 
               
@@ -195,265 +286,10 @@ angular.module('starter.controllers', [])
             
 
 
-      
-
-          
-
-
-     
-          // var image=$('#mediaActionImageStore');
-
-          // image.cropper({
-          //     aspectRatio: 1 / 1,
-          //     background:false,
-          //     guides: false,
-          //     highlight: false,
-          //     dragCrop: false,
-          //     movable: false,
-          //     resizable: false,
-          //     mouseWheelZoom: false,
-          //     touchDragZomm:false,
-          //     autoCrop: true,
-          //     built: function () {
-          //       //alert(1);
-          //       // $(this).cropper('setData', 0, 0, 675, 1080,90);
-          //       // $(this).cropper('setCropBoxData', 0, 0, 1920, 1080);
-          //       image.cropper('setCanvasData', {top: 0, left: 0, width: 100, height: 100});
-          //       //                $image.cropper('setCropBoxData', 0, 0, 50, 50);
-          //       image.cropper("setCropBoxData", { top: 0, left: 0, width: 150, height: 150 });
-
-          //     }
-          // });
-
          
       }
 
-      // if (camNewsActionFile[0].type == "image/png" || camNewsActionFile[0].type == "image/jpg" || camNewsActionFile[0].type == "image/jpeg") {
-      //       console.log("image")
-      //       setTimeout(function() {
-
-
-      //         var canvas = 0;
-      //         theCropImage = $('#mediaActionImageStore'),
-      //             $dataRotate = $('#dataRotate'),
-      //             options = {
-      //                 // modal: true,
-      //                 // guides: true,
-      //                 autoCrop: true,
-      //                 // dragCrop: true,
-      //                 aspectRatio: 1 / 1,
-      //                 // movable: true,
-      //                 resizable: true,
-      //                 zoomable: true,
-      //                 // touchDragZoom: false,
-      //                 // mouseWheelZoom: false,
-      //                 // viewMode: 3,
-      //                 autoCropArea: 0.5,
-      //                 preview: '.preview',
-      //                 crop: function(data) {
-      //                     $dataRotate.val(Math.round(data.rotate));
-      //                 },
-      //                 built: function () {
-      //                   theCropImage.cropper('move', 1),
-      //                   theCropImage.cropper('setCanvasData', {
-      //                     left: 0,
-      //                     top: 0, 
-      //                     width: window.innerWidth,
-      //                     height: window.innerWidth
-      //                   }),
-      //                   theCropImage.cropper('setCropBoxData', {
-      //                     left: 0, 
-      //                     top: 0, 
-      //                     width: 400,
-      //                     height: 400
-      //                   }),
-
-      //                   theCropPreview = $(".preview"),
-      //                   width = theCropPreview.width()
-
-      //                 }
-      //             };
-
-      //         theCropPreview = $(".preview"),
-      //             width = theCropPreview.width();
-
-      //         theCropImage.cropper(options);
-      //         $(document.body).on('click', '[data-method]', function() {
-      //             var data = $(this).data(),
-      //                 $target = 0,
-      //                 result;
-
-      //             if (data.method) {
-      //                 data = $.extend({}, data); // Clone a new one
-
-      //                 if (typeof data.target !== 'undefined') {
-      //                     $target = $(data.target);
-
-      //                     if (typeof data.option === 'undefined') {
-      //                         try {
-      //                             data.option = JSON.parse($target.val());
-      //                         } catch (e) {
-      //                             console.log(e.message);
-      //                         }
-      //                     }
-      //                 }
-
-      //                 result = theCropImage.cropper(data.method, data.option);
-      //                 if (data.method === 'getCroppedCanvas') {
-      //                     canvas = result;
-      //                     $('#mediaActionImageFiltered').html(result);
-      //                 }
-
-      //                 if ($.isPlainObject(result) && $target) {
-      //                     try {
-      //                         $target.val(JSON.stringify(result));
-      //                     } catch (e) {
-      //                         console.log(e.message);
-      //                     }
-      //                 }
-
-      //             }
-      //         });
-
-      //       //   console.log("hidi")
-      //       // //(function() {
-      //       //     var canvas = 0;
-      //       //     var $image = $('#mediaActionImageStore'),
-      //       //         $dataRotate = $('#dataRotate'),
-      //       //         options = {
-      //       //             modal: true,
-      //       //             guides: true,
-      //       //             aspectRatio: 1 / 1,
-      //       //             autoCrop: false,
-      //       //             dragCrop: true,
-      //       //             movable: true,
-      //       //             resizable: true,
-      //       //             zoomable: false,
-      //       //             touchDragZoom: false,
-      //       //             mouseWheelZoom: false,
-      //       //             viewMode: 3,
-      //       //             checkOrientation: 1,
-      //       //             rotatable: true,
-      //       //             preview: '.preview',
-      //       //             crop: function(data) {
-      //       //                 $dataRotate.val(Math.round(data.rotate));
-      //       //             },
-      //       //             built: function () {
-      //       //               // this.cropper[method](argument1, , argument2, ..., argumentN);
-      //       //               $image.on().cropper({move: 1});
-      //       //               $image.on().cropper.setCropBoxData({
-      //       //                 width: window.innerWidth - 40,
-      //       //                 left: 20,  
-      //       //                 top: 20
-      //       //               });
-
-      //       //               // Allows chain composition
-      //       //               //this.cropper.move(1, -1).rotate(45).scale(1, -1);
-      //       //             }
-      //       //         };
-
-                
-
-      //       //     $("#sendToServer").click(function() {
-      //       //         var croppedImageBase64 = canvas.toDataURL();
-      //       //         var mainImage = $('img[alt="mainImage"]').attr('src');
-      //       //         $.ajax({
-      //       //             url: 'ImageServlet',
-      //       //             type: 'POST',
-      //       //             data: { mainImage: mainImage, croppedImage: croppedImageBase64 },
-      //       //             error: function() {
-
-      //       //             },
-      //       //             success: function(data) {
-
-      //       //             }
-      //       //         });
-      //       //     });
-
-
-
-      //           //this.zone.run(() => {
-      //               //this.startImageCrop;
-      //           //});
-      //         // $('#image').cropper({
-      //         //   aspectRatio: 16 / 9,
-      //         //   crop: function(e) {
-      //         //     // Output the result data for cropping image.
-      //         //     console.log(e.x);
-      //         //     console.log(e.y);
-      //         //     console.log(e.width);
-      //         //     console.log(e.height);
-      //         //     console.log(e.rotate);
-      //         //     console.log(e.scaleX);
-      //         //     console.log(e.scaleY);
-      //         //   }
-      //         // });
-
-                  // theCropImage = $('#mediaActionImageStore');
-                  // theCropImage.cropper({
-                  //   aspectRatio: 1 / 1,
-                  //   preview: ".preview",
-                  //   viewMode: 3,
-                  //   checkOrientation: 1,
-                  //   rotatable: true,
-                  //   crop: function (data) {
-                  //     $dataRotate.val(Math.round(data.rotate));
-                  //   },
-                  //   built: function () {
-                  //     theCropImage.cropper('move', 1);
-                  //     theCropImage.cropper('setCanvasData', 0, 0, 1920, 1080);
-
-                  //     theCropPreview = $(".preview"),
-                  //     width = theCropPreview.width();
-
-                  //   }
-
-                  // });
-
-      //             // $(document.body).on('click', '[data-method]', function() {
-      //             //     var data = $(this).data(),
-      //             //         $target = 0,
-      //             //         result;
-
-      //             //     if (data.method) {
-      //             //         data = $.extend({}, data); // Clone a new one
-
-      //             //         if (typeof data.target !== 'undefined') {
-      //             //             $target = $(data.target);
-
-      //             //             if (typeof data.option === 'undefined') {
-      //             //                 try {
-      //             //                     data.option = JSON.parse($target.val());
-      //             //                 } catch (e) {
-      //             //                     console.log(e.message);
-      //             //                 }
-      //             //             }
-      //             //         }
-
-      //             //         result = theCropImage.cropper(data.method, data.option);
-      //             //         if (data.method === 'getCroppedCanvas') {
-      //             //             canvas = result;
-      //             //             $('#croppedImage').html(result);
-      //             //         }
-
-      //             //         if ($.isPlainObject(result) && $target) {
-      //             //             try {
-      //             //                 $target.val(JSON.stringify(result));
-      //             //             } catch (e) {
-      //             //                 console.log(e.message);
-      //             //             }
-      //             //         }
-
-      //             //     }
-      //             // });
-
-      //       }, 2000);
-      //       // cropper.move(1);
-
-      //       this.isVideo = false;
-      //   } else {
-      //       this.isVideo = true;
-      //   }
+      
 
   };
 
@@ -464,7 +300,7 @@ angular.module('starter.controllers', [])
   })
 
   $scope.$on('$ionicView.loaded', function(){
-    //setTimeout(setUpCam(), 2000);
+    
   });
 
   
