@@ -426,6 +426,18 @@
   background-position: center;
   height: 100%;
   color: #ffffff; }
+  .record-view .list {
+    position: absolute;
+    z-index: 9999;
+    width: 90%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: 0; }
+    .record-view .list .item {
+      border-width: 0px;
+      border-style: solid;
+      padding: 0px; }
   .record-view .footer {
     position: fixed;
     bottom: 40px;
@@ -604,14 +616,12 @@
 
 .mediaActionImageStore {
   position: absolute;
-  top: 20px;
-  width: 90%;
+  width: 100%;
   /* margin: 20px; */
-  border-radius: 20px;
-  border: 2px solid white;
   margin: 0 auto;
   left: 0;
-  right: 0; }
+  right: 0;
+  opacity: 0.5; }
 
 #mediaActionVideoStore {
   position: absolute;
@@ -650,9 +660,26 @@
   width: 100%; }
 
 .slide-navigator {
-  text-align: center; }
+  text-align: center;
+  position: absolute;
+  top: 40%;
+  z-index: 9999;
+  width: 100%; }
   .slide-navigator img {
     width: 25%; }
+
+.changeMedia {
+  text-align: center;
+  position: absolute;
+  top: 5%;
+  z-index: 9999;
+  right: 5%;
+  font-size: 2.5rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 20%;
+  padding: .7rem;
+  border-radius: 10px;
+  margin: 0 auto; }
 
 .controlPrompt {
   position: absolute;
@@ -663,8 +690,27 @@
   .controlPrompt img {
     width: 20%; }
 
-#typeVideo {
+#typeVideo, #typeImage {
   position: absolute;
   top: 0;
-  width: 100%;
+  width: 320px;
+  height: 320px;
+  background: black;
   z-index: 9999; }
+  #typeVideo.active, #typeImage.active {
+    background: black;
+    height: 100%; }
+
+.shadow {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  top: 0;
+  left: 0;
+  -webkit-box-shadow: inset 0px 0px 0px 10px rgba(0, 0, 0, 0.99);
+  -moz-box-shadow: inset 0px 0px 0px 10px rgba(0, 0, 0, 0.99);
+  box-shadow: inset 0px 0px 0px 10px rgba(0, 0, 0, 0.99); }
+
+.postStoryHelper {
+  height: 40px;
+  background-color: #650707; }

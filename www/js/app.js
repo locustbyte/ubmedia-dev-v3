@@ -35,6 +35,7 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 's
       $("#mask-load-file").trigger('click');
   }
   $rootScope.mediaCheck = '';
+  $rootScope.infoCheck = false;
   //This hooks all auth avents
   auth.hookEvents();
   //This event gets triggered on URL change

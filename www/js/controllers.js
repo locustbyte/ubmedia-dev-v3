@@ -148,13 +148,23 @@ angular.module('starter.controllers', [])
 
 
 ////// RECORD CONTROLLER //////
-.controller('RecordCtrl', function($scope, $http, $rootScope, $timeout, $ionicModal, $sessionStorage) {
+.controller('RecordCtrl', function($scope, $http, $rootScope, $timeout, $ionicModal, $sessionStorage, $ionicSlideBoxDelegate) {
   $scope.settings = {
     enableFriends: true
   };
 
-  $scope.theNewPostInfo = [];
-
+  vm = $scope;
+  vm.theNewPostInfo = newPost = {
+     newPost : {
+        mediaType: '',
+        mediaURL: '',
+        title:  '',
+        summary:   '',
+        story:   ''
+     }
+  };
+  
+  console.log(vm.theNewPostInfo)
   
   var getNextNewID = $http({
       method: "post",
@@ -190,10 +200,17 @@ angular.module('starter.controllers', [])
 
   $scope.saveDetails = function(){
 
-    var newsData = {"title": $("#news_title").val(),"summary": $("#news_summary").val(), "detail": $("#news_detail").val()}
+    var newsData = {"title": $("#news_title").val(),"summary": $("#news_summary").val(), "story": $("#news_detail").val()}
 
-    $scope.theNewPostInfo.push({newsData})
-    console.log($scope.theNewPostInfo)
+    newPost.newPost.title = $("#news_title").val();
+    newPost.newPost.summary = $("#news_summary").val();
+    newPost.newPost.story = $("#news_detail").val();
+
+    $rootScope.infoCheck = true;
+
+    console.log(vm.theNewPostInfo)
+
+    $ionicSlideBoxDelegate.next();
     // var saveNewsPostInfo = $http({
     //     method: "post",
     //     //url: window.location.href + "php/test.php",
@@ -249,7 +266,7 @@ angular.module('starter.controllers', [])
       var file = $("#mask-load-file")[0].files[0];
 
       if (file) {
-
+          console.log(file)
           var reader = new FileReader();
           reader.readAsDataURL(file);
           reader.onload = function(e) {
@@ -264,8 +281,12 @@ angular.module('starter.controllers', [])
                 console.log($rootScope.mediaCheck)
                 $(".mediaActionImageStore").attr("src",e.target.result);
                 $(".slider-slide").addClass("active");
-                $scope.theNewPostInfo.themedia.push(e.target.result);
-                console.log($scope.theNewPostInfo)
+                $(".shadow, .typeImage").css("width",$(window).width());
+                $(".shadow, .typeImage").css("height",$(window).width());
+                vm.theNewPostInfo.newPost.mediaType = "Image";
+                vm.theNewPostInfo.newPost.mediaURL = e.target.result;
+                $ionicSlideBoxDelegate.next();
+                console.log(vm.theNewPostInfo)
               } else {
                 $rootScope.$apply(function () {               // 3
                   $rootScope.mediaCheck = 'video';
@@ -273,23 +294,16 @@ angular.module('starter.controllers', [])
                 console.log("video")
                 $("#mediaActionVideoStore").attr("src",e.target.result)
                 $(".slider-slide").addClass("active");
-                $scope.theNewPostInfo.themedia = e.target.result;
-                console.log($scope.theNewPostInfo)
+                vm.theNewPostInfo.newPost.mediaType = "Video";
+                vm.theNewPostInfo.newPost.mediaURL = e.target.result;
+                $ionicSlideBoxDelegate.next();
+                console.log(vm.theNewPostInfo)
               }
 
               
           };
 
-          
-
-            
-            
-
-
-         
-      }
-
-      
+      }      
 
   };
 

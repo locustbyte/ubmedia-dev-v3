@@ -6,6 +6,11 @@
         </ion-content>
       </ion-modal-view>
     </script>
+    <div class="postStoryHelper" ng-if="$root.mediaCheck == 'image' || $root.mediaCheck == 'video'">
+        <div class="row">
+            <div class="col center">MEDIA UPLOADED</div>
+        </div>
+    </div>
     <ion-slide-box on-slide-changed="slideHasChanged($index)">
         <ion-slide class="slide1">
             <ion-content class="padding">
@@ -16,6 +21,8 @@
 
                 <div id="typeImage" class="typeImage" ng-if="$root.mediaCheck == 'image'">
                     <img class="mediaActionImageStore" src="" class="" />
+                    <div class="shadow"></div>
+
                     <!-- <div class="center">
                         <li class="ion-camera icon-large" data-pack="default" data-tags="photo" style="display: inline-block;"></li>
                     </div> -->
@@ -24,10 +31,12 @@
                 <div id="typeVideo" ng-if="$root.mediaCheck == 'video'">
                     <video id="mediaActionVideoStore" src="" controls></video>
                 </div>
-
+                <div class="changeMedia" ng-if="$root.mediaCheck == 'image' || $root.mediaCheck == 'video'" ng-click="startCapture();">
+                    <i class="icon ion-ios-camera"></i>
+                </div>
                 <div class="slide-navigator" ng-if="$root.mediaCheck == 'image' || $root.mediaCheck == 'video'">
                     <div>
-                        <img src="../img/swipe-left.png" /> NEWS DETAILS
+                        <img src="../img/swipe-left.png" />
                     </div>
                     <div>
                         Swipe to continue
@@ -39,7 +48,13 @@
         </ion-slide>
         <ion-slide>
             <ion-content class="padding recordContentBgScreen">
-
+                <div id="typeImage" class="typeImage" ng-if="$root.mediaCheck == 'image'">
+                    <img class="mediaActionImageStore" src="" class="" />
+                    <div class="shadow"></div>
+                    <!-- <div class="center">
+                        <li class="ion-camera icon-large" data-pack="default" data-tags="photo" style="display: inline-block;"></li>
+                    </div> -->
+                </div>
                 <div class="list">
                     <label class="item item-input item-floating-label">
                         <span class="input-label">News Title</span>
@@ -55,23 +70,16 @@
                     </label>
                     <button class="button button-block button-balanced" ng-click="saveDetails();">Save Story</button>
                 </div>
-                <div class="slide-navigator" ng-if="$root.mediaCheck == 'image' || $root.mediaCheck == 'video'">
-                    <div>
-                        CHANGE MEDIA <img src="../img/swipe-left.png" /> REVIEW
-                    </div>
-                    <div>
-                        Swipe left to continue
-                    </div>
-                </div>
+                
                 </ion-content>
         </ion-slide>
         <ion-slide class="review-story">
             <ion-content class="padding recordContentBgScreen">
                 <div class="row responsive-sm">
                     <div class="col">
-                        <div class="slide-navigator" ng-if="$root.mediaCheck == 'image' || $root.mediaCheck == 'video'">
+                        <div class="slide-navigator">
                             <div>
-                                STORY <img src="../img/swipe-left.png" />
+                                <img src="../img/swipe-left.png" />
                             </div>
                             <div>
                                 If happy click publish
