@@ -6,15 +6,18 @@
         </ion-content>
       </ion-modal-view>
     </script>
-    <div class="postStoryHelper" ng-if="$root.mediaCheck == 'image' || $root.mediaCheck == 'video'">
-        <div class="row">
-            <div class="col center">MEDIA UPLOADED</div>
+    <div class="postStoryHelper">
+        <div class="row" ng-show="currentSlide == 0">
+            <div class="col center">Photo / Video MEDIA</div>
+        </div>
+        <div class="row" ng-show="currentSlide == 1">
+            <div class="col center">NEWS DETAILS</div>
         </div>
     </div>
     <ion-slide-box on-slide-changed="slideHasChanged($index)">
         <ion-slide class="slide1">
             <ion-content class="padding">
-                <img id="startMediaBtn" class="show" src="img/video/record-btn.png" />
+                <img id="startMediaBtn" class="show" src="img/video/record-btn.png" ng-click="startCapture();" />
                 <div style="position: absolute;top: -2000px;">
                     <input type="file" id="mask-load-file" custom-on-change="uploadFile" name="file1" accept="audio/*;capture=microphone">
                 </div>
@@ -36,7 +39,7 @@
                 </div>
                 <div class="slide-navigator" ng-if="$root.mediaCheck == 'image' || $root.mediaCheck == 'video'">
                     <div>
-                        <img src="../img/swipe-left.png" />
+                        <img src="img/swipe-left.png" />
                     </div>
                     <div>
                         Swipe to continue
@@ -75,11 +78,9 @@
         </ion-slide>
         <ion-slide class="review-story">
             <ion-content class="padding recordContentBgScreen">
-                <div class="row responsive-sm">
-                    <div class="col">
                         <div class="slide-navigator">
                             <div>
-                                <img src="../img/swipe-left.png" />
+                                <img src="img/swipe-left.png" />
                             </div>
                             <div>
                                 If happy click publish
@@ -87,9 +88,8 @@
                         </div>
                     </div>
                     <div class="col center">
-                        <button class="button button-assertive center" ng-click="publish-news-item();">PUBLISH NEWS</button>
-                    </div>
-                </div>
+                        <button class="button button-assertive center" ng-click="publishNewsItem();">PUBLISH NEWS</button>
+                
             </ion-content>
         </ion-slide>
     </ion-slide-box>

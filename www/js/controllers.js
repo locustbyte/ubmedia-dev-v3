@@ -154,6 +154,7 @@ angular.module('starter.controllers', [])
   };
 
   vm = $scope;
+  vm.currentSlide = 0;
   vm.theNewPostInfo = newPost = {
      newPost : {
         mediaType: '',
@@ -196,6 +197,8 @@ angular.module('starter.controllers', [])
 
   $scope.slideHasChanged = function(index){
     console.log(index)
+    vm.currentSlide = $ionicSlideBoxDelegate.currentIndex();
+    console.log(vm.currentSlide)
   }
 
   $scope.saveDetails = function(){
@@ -236,16 +239,17 @@ angular.module('starter.controllers', [])
   };
 
   $scope.publishNewsItem = function(){
+    console.log(vm.theNewPostInfo.newPost.title)
     var saveNewsPostInfo = $http({
         method: "post",
         //url: window.location.href + "php/test.php",
         url: "http://nonsecure.teststuff.local/ubmedia-php/news_saveNewStoryDetails.php",
         data: $.param({
-          "media": $("#news_title").val(),
-          "media_Type": $("#news_title").val(),
-          "title": $("#news_title").val(),
-          "summary": $("#news_summary").val(),
-          "detail": $("#news_detail").val()
+          "media_url": "test",
+          "media_type": vm.theNewPostInfo.newPost.mediaType,
+          "title": vm.theNewPostInfo.newPost.title,
+          "summary": vm.theNewPostInfo.newPost.summary,
+          "detail": vm.theNewPostInfo.newPost.story
         }),
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     });
