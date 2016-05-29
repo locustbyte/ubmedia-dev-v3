@@ -2,22 +2,37 @@
     <script id="templates/modal.html" type="text/ng-template">
       <ion-modal-view>
         <ion-content class="padding">
-          <button class="button button-clear button-primary" ng-click="modal.hide()">Cancel</button>
+            
+            <div class="row">
+                <div class="col center">
+                    PUBLISHED
+                </div>
+            </div>
+            <div class="row">
+                <div class="col center">
+                    <button class="button button-clear button-primary" ng-click="modal.hide()">CLOSE</button>
+                </div>
+            </div>
+          
         </ion-content>
       </ion-modal-view>
     </script>
-    <div class="postStoryHelper">
+    <!-- <div class="postStoryHelper" ng-show="currentSlide == 0 || currentSlide == 1">
         <div class="row" ng-show="currentSlide == 0">
             <div class="col center">Photo / Video MEDIA</div>
         </div>
         <div class="row" ng-show="currentSlide == 1">
             <div class="col center">NEWS DETAILS</div>
         </div>
-    </div>
+    </div> -->
     <ion-slide-box on-slide-changed="slideHasChanged($index)">
         <ion-slide class="slide1">
             <ion-content class="padding">
-                <img id="startMediaBtn" class="show" src="img/video/record-btn.png" ng-click="startCapture();" />
+                <div class="row">
+                    <div class="col center">
+                        <img id="startMediaBtn" class="show" src="img/video/record-btn.png" ng-click="startCapture();" />
+                    </div>
+                </div>
                 <div style="position: absolute;top: -2000px;">
                     <input type="file" id="mask-load-file" custom-on-change="uploadFile" name="file1" accept="audio/*;capture=microphone">
                 </div>

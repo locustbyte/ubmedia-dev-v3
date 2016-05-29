@@ -1,0 +1,107 @@
+<ion-view view-title="Capture Something!" class="record-view active-recording video-page show-page" hide-nav-bar="true">
+    <script id="templates/modal.html" type="text/ng-template">
+      <ion-modal-view>
+        <ion-content class="padding">
+            
+            <div class="row">
+                <div class="col center">
+                    PUBLISHED
+                </div>
+            </div>
+            <div class="row">
+                <div class="col center">
+                    <button class="button button-clear button-primary" ng-click="modal.hide()">CLOSE</button>
+                </div>
+            </div>
+          
+        </ion-content>
+      </ion-modal-view>
+    </script>
+    <div class="postStoryHelper" ng-show="currentSlide == 0 || currentSlide == 1">
+        <div class="row" ng-show="currentSlide == 0">
+            <div class="col center">Photo / Video MEDIA</div>
+        </div>
+        <div class="row" ng-show="currentSlide == 1">
+            <div class="col center">NEWS DETAILS</div>
+        </div>
+    </div>
+    <ion-slide-box on-slide-changed="slideHasChanged($index)">
+        <ion-slide class="slide1">
+            <ion-content class="padding">
+                <img id="startMediaBtn" class="show" src="img/video/record-btn.png" ng-click="startCapture();" />
+                <div style="position: absolute;top: -2000px;">
+                    <input type="file" id="mask-load-file" custom-on-change="uploadFile" name="file1" accept="audio/*;capture=microphone">
+                </div>
+
+                <div id="typeImage" class="typeImage" ng-if="$root.mediaCheck == 'image'">
+                    <img class="mediaActionImageStore" src="" class="" />
+                    <div class="shadow"></div>
+
+                    <!-- <div class="center">
+                        <li class="ion-camera icon-large" data-pack="default" data-tags="photo" style="display: inline-block;"></li>
+                    </div> -->
+                </div>
+
+                <div id="typeVideo" ng-if="$root.mediaCheck == 'video'">
+                    <video id="mediaActionVideoStore" src="" controls></video>
+                </div>
+                <div class="changeMedia" ng-if="$root.mediaCheck == 'image' || $root.mediaCheck == 'video'" ng-click="startCapture();">
+                    <i class="icon ion-ios-camera"></i>
+                </div>
+                <div class="slide-navigator" ng-if="$root.mediaCheck == 'image' || $root.mediaCheck == 'video'">
+                    <div>
+                        <img src="img/swipe-left.png" />
+                    </div>
+                    <div>
+                        Swipe to continue
+                    </div>
+                </div>
+                
+                
+            </ion-content>
+        </ion-slide>
+        <ion-slide>
+            <ion-content class="padding recordContentBgScreen">
+                <div id="typeImage" class="typeImage" ng-if="$root.mediaCheck == 'image'">
+                    <img class="mediaActionImageStore" src="" class="" />
+                    <div class="shadow"></div>
+                    <!-- <div class="center">
+                        <li class="ion-camera icon-large" data-pack="default" data-tags="photo" style="display: inline-block;"></li>
+                    </div> -->
+                </div>
+                <div class="list">
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">News Title</span>
+                        <input type="text" id="news_title" name="news_title" ng-model="news_title" placeholder="News Title">
+                    </label>
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">Summary</span>
+                        <input type="text" class="light" id="news_summary" name="news_summary" ng-model="news_summary" placeholder="Summary">
+                    </label>
+                        <label class="item item-input item-floating-label">
+                        <span class="input-label">The Story</span>
+                        <textarea type="text" rows="4" id="news_detail" name="news_detail" ng-model="news_detail" placeholder="The Story"></textarea>
+                    </label>
+                    <button class="button button-block button-balanced" ng-click="saveDetails();">Save Story</button>
+                </div>
+                
+                </ion-content>
+        </ion-slide>
+        <ion-slide class="review-story">
+            <ion-content class="padding recordContentBgScreen">
+                        <div class="slide-navigator">
+                            <div>
+                                <img src="img/swipe-left.png" />
+                            </div>
+                            <div>
+                                If happy click publish
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col center">
+                        <button class="button button-assertive center" ng-click="publishNewsItem();">PUBLISH NEWS</button>
+                
+            </ion-content>
+        </ion-slide>
+    </ion-slide-box>
+</ion-view>

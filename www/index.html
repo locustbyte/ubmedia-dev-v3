@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    
+
     <title></title>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
@@ -21,7 +21,7 @@
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
-
+    <script src="lib/ngCordova/ng-cordova.js"></script>
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 
@@ -35,7 +35,7 @@
 
     <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 
-    
+
 
     <!-- Auth0 Lock -->
     <script src="lib/auth0-lock/build/auth0-lock.js"></script>
@@ -52,11 +52,15 @@
     <script src="lib/angular-ui-bootstrap/ui-bootstrap-tpls.js"></script>
 
     <script src="lib/angular/angular-ios9-uiwebview.patch.js"></script>
-    <script src="lib/pouchdb/dist/pouchdb.min.js"></script>
+    
+    <script src="lib/pouchdb/dist/pouchdb.js"></script>
+    <script src="js/pouchdb/angular-pouchdb.js"></script>
+    <script src="js/pouchdb/ng-pouchdb-binding.js"></script>
+    <script src="js/pouchdb/ng-pouchdb-collection.js"></script>
 
 
-    
-    
+
+
 
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
@@ -64,7 +68,7 @@
     <script type="text/javascript">
       google.load("feeds", "1");
     </script>
-    
+
 
   </head>
   <body ng-app="starter">
@@ -86,5 +90,5 @@
   <script src="lib/cropper/dist/cropper.js"></script>
   <!--<script src="lib/cropperjs/dist/cropper.js"></script>
   <script src="js/cropperjs/support.js"></script>-->
-  
+
 </html>

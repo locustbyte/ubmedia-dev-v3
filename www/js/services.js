@@ -9,7 +9,17 @@ angular.module('starter.services', [])
     };
 })
 
-
+.filter('createarray', function () {
+    return function (value, propertyName) {
+        var arrayList = [];
+        angular.forEach(value, function (val) {
+            angular.forEach(val[propertyName], function (v) {
+                arrayList.push(v)
+            });
+        });
+        return arrayList;
+    }
+})
 
 .filter('inSlicesOf', 
     ['$rootScope',  

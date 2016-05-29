@@ -32,7 +32,7 @@
                 <span>(You can add more later)</span>
             </div>
             <div class="row" ng-repeat="row in items | inSlicesOf:3">
-                <div class="col col-33 chooseCategory" ng-repeat="item in row" ng-click="clicked(item)" ng-class="{ active: item.selected }"><img src="img/categoryImages/{{item.CategoryImage}}" width="100%" /></div>
+                <div class="col col-33 chooseCategory" ng-repeat="item in row" ng-click="clicked(item)" ng-class="{ active: item.selected }"><img src="img/categoryImages/{{item.value}}" width="100%" /></div>
             </div>
         </ion-content>
         <div class="footer">

@@ -1,7 +1,20 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope) {
+.controller('DashCtrl', function($scope, $rootScope) {
   $scope.listView = true;
+
+  $rootScope.localMediaDB.allDocs({
+    include_docs: true,
+    attachments: true
+  }).then(function (result) {
+    $scope.tantan = result.rows
+    console.log(result.rows);
+  }).catch(function (err) {
+    console.log(err);
+  });
+
+
+
 })
 
 .controller('ChatsCtrl', function($scope, Chats) {
@@ -23,9 +36,78 @@ angular.module('starter.controllers', [])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
+.controller('imageController', function($scope, $cordovaCamera, $cordovaFile) {
+  // 1
+  $scope.images = [];
 
-.controller('startCtrl', function($scope, $stateParams, $ionicSlideBoxDelegate, $http, getCategories, $localStorage, $state) {
-  
+  $scope.addImage = function() {
+  // 2
+  var options = {
+    destinationType : Camera.DestinationType.FILE_URI,
+    sourceType : Camera.PictureSourceType.CAMERA, // Camera.PictureSourceType.PHOTOLIBRARY
+    allowEdit : false,
+    encodingType: Camera.EncodingType.JPEG,
+    popoverOptions: CameraPopoverOptions,
+  };
+
+  // 3
+  $cordovaCamera.getPicture(options).then(function(imageData) {
+
+    // 4
+    onImageSuccess(imageData);
+
+    function onImageSuccess(fileURI) {
+      createFileEntry(fileURI);
+    }
+
+    function createFileEntry(fileURI) {
+      window.resolveLocalFileSystemURL(fileURI, copyFile, fail);
+    }
+
+    // 5
+    function copyFile(fileEntry) {
+      var name = fileEntry.fullPath.substr(fileEntry.fullPath.lastIndexOf('/') + 1);
+      var newName = makeid() + name;
+
+      window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(fileSystem2) {
+        fileEntry.copyTo(
+          fileSystem2,
+          newName,
+          onCopySuccess,
+          fail
+        );
+      },
+      fail);
+    }
+
+    // 6
+    function onCopySuccess(entry) {
+      $scope.$apply(function () {
+        $scope.images.push(entry.nativeURL);
+      });
+    }
+
+    function fail(error) {
+      console.log("fail: " + error.code);
+    }
+
+    function makeid() {
+      var text = "";
+      var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+      for (var i=0; i < 5; i++) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+      }
+      return text;
+    }
+
+  }, function(err) {
+    console.log(err);
+  });
+  }
+})
+.controller('startCtrl', function($scope, $rootScope, $stateParams, $ionicSlideBoxDelegate, $http, getCategories, $localStorage, $state) {
+
   //lets grab some categories
   // var tan = {};
 
@@ -68,14 +150,55 @@ angular.module('starter.controllers', [])
     $state.go('tab.dash');
   };
 
-  $http.get('http://www.youbmedia.com/php/getCategories.php').success(function(response){ //make a get request to mock json file.
-      $scope.items = response; //Assign data received to $scope.data
-      console.log(response);
-      catItems = response;
-  })
-  .error(function(err){
-      //handle error
+//   var designDoc = {
+//   _id: '_design/fetchUserCategories',
+//   views: {
+//     'fetchUserCategories': {
+//       map: function(doc) {
+//         emit(doc.CategoryName, doc.CategoryImage);
+//       }.toString()
+//     }
+//   }
+// };
+
+
+
+  $rootScope.remoteCategoriesDB.query('fetchCategories').then(function(result) {
+   $scope.items = result.rows;
+   console.log($scope.items)
   });
+
+
+
+
+
+
+//   $rootScope.localCategoriesDB.put(designDoc).then(function (info) {
+//  // design doc created
+// }).catch(function (err) {
+//   // if err.name === 'conflict', then
+//   // design doc already exists
+// });
+
+  // $rootScope.remoteCategoriesDB.allDocs({
+  //   include_docs: true,
+  //   attachments: true
+  // }).then(function (result) {
+  //   console.log(result.rows)
+  //   $scope.items = result.rows
+  //   catItems = result.rows
+  // }).catch(function (err) {
+  //   console.log(err);
+  // });
+
+  // $http.get('http://www.youbmedia.com/php/getCategories.php').success(function(response){ //make a get request to mock json file.
+  //     $scope.items = response; //Assign data received to $scope.data
+  //     console.log(response);
+  //     catItems = response;
+  // })
+  // .error(function(err){
+  //     //handle error
+  // });
 
   $scope.clicked = function (member) {
 
@@ -101,6 +224,14 @@ angular.module('starter.controllers', [])
         $ionicSlideBoxDelegate.enableSlide( false );
         showAddCat();
       }
+
+      var userSelectedCategory = {
+        "_id": new Date().valueOf().toString(),
+        "CategoryName": catSelected[0].key
+      };
+      $rootScope.localCategoriesDB.put(userSelectedCategory).then(function () {
+        console.log(catSelected);
+      });
   };
 
 })
@@ -145,6 +276,28 @@ angular.module('starter.controllers', [])
 })
 
 
+// .controller('App', function($scope, pouchBindingSimple, pouchCollection) {
+//     $scope.books = pouchCollection('books');
+//     $scope.userInfo = {
+//     firstName: 'Jo', lastName: 'Bloggs'
+//   };
+//   pouchBindingSimple('user-info', $scope, 'userInfo');
+
+//   $scope.online = false;
+//   $scope.toggleOnline = function() {
+//     $scope.online = !$scope.online;
+//     if ($scope.online) {  // Read http://pouchdb.com/api.html#sync
+//       $scope.sync =  $scope.books.$db.replicate.sync('http://127.0.0.1:5984/books', {live: true})
+//         .on('error', function (err) {
+//           console.log("Syncing stopped");
+//           $scope.online = false;
+//           console.log(err);
+//         });
+//     } else {
+//       $scope.sync.cancel();
+//     }
+//   };
+// })
 
 
 ////// RECORD CONTROLLER //////
@@ -152,6 +305,7 @@ angular.module('starter.controllers', [])
   $scope.settings = {
     enableFriends: true
   };
+  
 
   vm = $scope;
   vm.currentSlide = 0;
@@ -164,35 +318,55 @@ angular.module('starter.controllers', [])
         story:   ''
      }
   };
-  
-  console.log(vm.theNewPostInfo)
-  
-  var getNextNewID = $http({
-      method: "post",
-      //url: window.location.href + "php/test.php",
-      url: "http://nonsecure.teststuff.local/ubmedia-php/news_getNextID.php",
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-  });
 
-  // var startNewNewsItem = $http({
+  console.log(vm.theNewPostInfo)
+
+  // var getNextNewID = $http({
   //     method: "post",
   //     //url: window.location.href + "php/test.php",
   //     url: "http://nonsecure.teststuff.local/ubmedia-php/news_getNextID.php",
-  //     data: $.param({'title' : "this"}),
   //     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
   // });
 
-  getNextNewID.success(function (data) {
-      
-      $sessionStorage.nextNewsID = data.nextID;
-      console.log($sessionStorage.nextNewsID);
+  // // var startNewNewsItem = $http({
+  // //     method: "post",
+  // //     //url: window.location.href + "php/test.php",
+  // //     url: "http://nonsecure.teststuff.local/ubmedia-php/news_getNextID.php",
+  // //     data: $.param({'title' : "this"}),
+  // //     headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+  // // });
 
-  });
+  // getNextNewID.success(function (data) {
+
+  //     $sessionStorage.nextNewsID = data.nextID;
+  //     console.log($sessionStorage.nextNewsID);
+
+  // });
 
   $ionicModal.fromTemplateUrl('templates/modal.html', {
     scope: $scope
   }).then(function(modal) {
     $scope.modal = modal;
+  });
+
+
+  $scope.openModal = function() {
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  // Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
   });
 
   $scope.slideHasChanged = function(index){
@@ -228,44 +402,53 @@ angular.module('starter.controllers', [])
     // });
 
     // saveNewsPostInfo.success(function (data) {
-        
+
     //     console.log(data);
 
     // });
   }
-  $scope.createContact = function(u) {        
+  $scope.createContact = function(u) {
     $scope.contacts.push({ name: u.firstName + ' ' + u.lastName });
     $scope.modal.hide();
   };
 
   $scope.publishNewsItem = function(){
     console.log(vm.theNewPostInfo.newPost.title)
-    var saveNewsPostInfo = $http({
-        method: "post",
-        //url: window.location.href + "php/test.php",
-        url: "http://nonsecure.teststuff.local/ubmedia-php/news_saveNewStoryDetails.php",
-        data: $.param({
-          "media_url": "test",
-          "media_type": vm.theNewPostInfo.newPost.mediaType,
-          "title": vm.theNewPostInfo.newPost.title,
-          "summary": vm.theNewPostInfo.newPost.summary,
-          "detail": vm.theNewPostInfo.newPost.story
-        }),
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-    });
 
-    saveNewsPostInfo.success(function (data) {
-        
-        console.log(data);
+    
+      var newMedia = {
+        "_id": new Date().valueOf().toString(),
+        "mediaType": vm.theNewPostInfo.newPost.mediaType,
+        "mediaURL": vm.theNewPostInfo.newPost.mediaURL,
+        "title": vm.theNewPostInfo.newPost.title,
+        "summary": vm.theNewPostInfo.newPost.summary,
+        "story": vm.theNewPostInfo.newPost.story
+      };
+      $rootScope.localMediaDB.put(newMedia).then(function () {
+        $scope.openModal();
+      });
 
-    });
+      //sync
+      $rootScope.localMediaDB.sync($rootScope.remoteMediaDB, {
+        live: true,
+        retry: true
+      }).on('change', function (change) {
+        console.log("yo, something changed!")
+      }).on('paused', function (info) {
+        // replication was paused, usually because of a lost connection
+      }).on('active', function (info) {
+        // replication was resumed
+      }).on('error', function (err) {
+        // totally unhandled error (shouldn't happen)
+      });
+
   }
 
   $scope.uploadFile = function(){
       var camNewsActionFile = event.target.files
       var filename = event.target.files[0].name;
       // alert('file was selected: ' + filename);
-      
+
 
       var file = $("#mask-load-file")[0].files[0];
 
@@ -304,24 +487,24 @@ angular.module('starter.controllers', [])
                 console.log(vm.theNewPostInfo)
               }
 
-              
+
           };
 
-      }      
+      }
 
   };
 
   angular.element(document).ready(function () {
-            
-    
+
+
 
   })
 
   $scope.$on('$ionicView.loaded', function(){
-    
+
   });
 
-  
+
 })
 
 ////// SEARCH CONTROLLER //////

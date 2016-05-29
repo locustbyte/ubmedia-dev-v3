@@ -693,8 +693,7 @@
 #typeVideo, #typeImage {
   position: absolute;
   top: 0;
-  width: 320px;
-  height: 320px;
+  width: 100%;
   background: black;
   z-index: 9999; }
   #typeVideo.active, #typeImage.active {
