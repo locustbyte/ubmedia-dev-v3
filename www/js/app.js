@@ -8,9 +8,18 @@
 
 // AUTHO PAGES INSTRUCTIONS - https://auth0.com/docs/native-platforms/ionic
 
-angular.module('starter', ['ionic','starter.controllers', 'starter.services', 'starter.directives', 'auth0',
+angular.module('starter', [
+  'ionic','starter.controllers', 
+  'starter.services', 
+  'starter.directives', 
+  'auth0',
   'angular-storage',
-  'angular-jwt', 'ngStorage', 'ngCordova', 'pouchdb'])
+  'angular-jwt', 
+  'ngStorage', 
+  'ngCordova', 
+  'pouchdb',
+  'ngSanitize'
+  ])
 
 .run(function($ionicPlatform, $rootScope, auth, store, jwtHelper, $location, pouchBindingSimple, pouchCollection) {
   $ionicPlatform.ready(function() {
@@ -40,6 +49,9 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 's
   $rootScope.localMediaDB = new PouchDB('ubmedia-mediadb');
   $rootScope.remoteMediaDB = new PouchDB('http://localhost:5984/ubmedia-mediadb');
 
+  // $rootScope.localMediaDB.destroy()
+  // $rootScope.remoteMediaDB.destroy()
+
   $rootScope.userCategoriesDB = new PouchDB('ubmedia-usercategoriesdb');
   $rootScope.localCategoriesDB = new PouchDB('ubmedia-categoriesdb');
   $rootScope.remoteCategoriesDB = new PouchDB('http://localhost:5984/ubmedia-categoriesdb');
@@ -47,6 +59,9 @@ angular.module('starter', ['ionic','starter.controllers', 'starter.services', 's
   $rootScope.localFriendsDB = new PouchDB('http://localhost:5984/ubmedia-localfriendsdb');
   $rootScope.RemoteFriendsDB = new PouchDB('http://localhost:5984/ubmedia-remotefriendsdb');
 
+  //$rootScope.localFriendsDB.destroy()
+
+  
 
   //sync
   $rootScope.localMediaDB.sync($rootScope.remoteMediaDB, {

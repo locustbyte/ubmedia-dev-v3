@@ -3,6 +3,7 @@
   "private": "true",
   "devDependencies": {
     "ionic": "driftyco/ionic-bower#1.2.4",
-    "pouchdb": "^5.3.0"
+    "pouchdb": "^5.3.0",
+    "jquery.stellar": "^0.6.2"
   }
 }

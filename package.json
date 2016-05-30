@@ -1,3 +1,4 @@
+// Google Api Key AIzaSyBjo19dIlVDEx1Lx2_vH5l8WvU_DQM36PI
 {
   "name": "ubmedia-dev-v2",
   "version": "1.1.1",
@@ -26,7 +27,8 @@
     "cordova-plugin-whitelist",
     "cordova-plugin-splashscreen",
     "cordova-plugin-statusbar",
-    "ionic-plugin-keyboard"
+    "ionic-plugin-keyboard",
+    "cordova-plugin-geolocation"
   ],
   "cordovaPlatforms": [
     "ios"

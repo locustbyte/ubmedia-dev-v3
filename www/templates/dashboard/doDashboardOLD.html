@@ -1,0 +1,92 @@
+<ion-view view-title="" class="DashboardView" hide-nav-bar="true">
+    <div class="navigation-tool">
+        <i class="ion-navicon-round"></i>
+    </div>
+    <ion-nav-title>
+        <img src="img/header-logo.png" class="nav-logo">
+    </ion-nav-title>
+    <ion-content overflow-scroll='false' delegate-handle="userDetailContent" on-scroll="onUserDetailContentScroll()" header-shrink scroll-event-interval="5">
+        <div class="grid-view" ng-show="listView == false">
+            <div class="row user-recordings" ng-repeat="row in mediaItems | inSlicesOf:3">
+                <!-- <div class="col col-33" ng-repeat="item in row track by item._id">
+                    <img src="" ng-click="viewStory(item)" />
+                </div> -->
+            </div>
+        </div>
+        <div class="list-view" ng-show="listView == true">
+            
+                            <div class="heading-date">28th May</div>
+                            
+            <div class="about-header">
+                <img src="https://freeios7.com/download/freeios7.com_apple_wallpaper_ironman-portrait_iphone4.jpg" class="about-image profile-background-image" style="vertical-align:middle;" style="-webkit-clip-path: polygon(0 0,100% 0,100% 80%,0 63%);">
+            </div>
+        </div>
+        <div class="post-item" ng-repeat="item in items | limitTo:1">
+            <div ng-show="item.mediaType == 'Image'">
+                <div class="row user-recordings">
+                    <div class="col deep-red">
+                        <div class="user-image">
+                            <!-- <img src="{{item.mediaURL}}" /> -->
+                        </div>
+                        <div class="media-type-image">
+                            <!-- <i class="ion-image"></i> -->
+                        </div>
+                        <!-- <img src="img/vidplay_trans.png" style="position: absolute;"> -->
+                        <div class="main-news-item">
+                            <div class="heading-date">28th May</div>
+                            <img src="{{item.mediaURL}}" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row user-post-interaction">
+                    <div class="col left">
+                        <p><b>Near</b> {{item.location}}</p>
+                    </div>
+                </div>
+                <div class="row user-post-interaction-responses">
+                    <div class="col left">
+                        <p><strong>{{item.title}}</strong></p>
+                        <p>{{item.summary}}</p>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="item.mediaType == 'Video'">
+                <div class="row user-post-info">
+                    <div class="col user-image">
+                        <!-- <img src="{{item.mediaURL}}" /> -->
+                    </div>
+                    <div class="col right-info">
+                        5w
+                    </div>
+                </div>
+                <div class="row user-recordings">
+                    <div class="col">
+                        <!-- <img src="img/vidplay_trans.png" style="position: absolute;"> -->
+                        <!-- <img src="{{item.mediaURL}}" /> -->
+                        <video width="320" height="240" controls>
+                            <source src="{{item.mediaURL}}" type="video/mp4">
+                            <source src="{{item.mediaURL}}" type="video/ogg"> Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+                <div class="row user-post-interaction">
+                    <div class="col left">
+                        <i class="ion-ios-heart-outline"></i>
+                        <i class="ion-ios-chatbubble-outline"></i>
+                        <i class="ion-ios-redo-outline"></i>
+                    </div>
+                    <div class="col right">
+                        <i class="ion-ios-more-outline"></i>
+                    </div>
+                </div>
+                <div class="row user-post-interaction-responses">
+                    <div class="col left">
+                        <i class="ion-ios-heart"></i> Nigel Wilson, enyaleigh18
+                        <p><strong>{{item.title}}</strong> {{item.summary}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </ion-content>
+</ion-view>
