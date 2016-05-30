@@ -16,6 +16,7 @@ angular.module('starter.directives', [])
     link: function($scope, $element, $attr) {
       var resizeFactor, scrollFactor, blurFactor;
       var header = $document[0].body.querySelector('.about-header');
+      console.log(header)
       $scope.$on('userDetailContent.scroll', function(event,scrollView) {
         if (scrollView.__scrollTop >= 0) {
           scrollFactor = scrollView.__scrollTop/3.5;
