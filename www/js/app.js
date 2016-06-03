@@ -42,8 +42,9 @@ angular.module('starter', [
     }
   });
 
+  $rootScope.mediaItems = [];
 
-
+  
 
   //Set Up Pouch Databases
   $rootScope.localMediaDB = new PouchDB('ubmedia-mediadb');
@@ -52,19 +53,19 @@ angular.module('starter', [
   // $rootScope.localMediaDB.destroy()
   // $rootScope.remoteMediaDB.destroy()
 
-  $rootScope.userCategoriesDB = new PouchDB('ubmedia-usercategoriesdb');
-  $rootScope.localCategoriesDB = new PouchDB('ubmedia-categoriesdb');
-  $rootScope.remoteCategoriesDB = new PouchDB('http://localhost:5984/ubmedia-categoriesdb');
+  //$rootScope.userCategoriesDB = new PouchDB('ubmedia-usercategoriesdb');
+  // $rootScope.localCategoriesDB = new PouchDB('ubmedia-categoriesdb');
+  // $rootScope.remoteCategoriesDB = new PouchDB('http://localhost:5984/ubmedia-categoriesdb');
 
-  $rootScope.localFriendsDB = new PouchDB('http://localhost:5984/ubmedia-localfriendsdb');
-  $rootScope.RemoteFriendsDB = new PouchDB('http://localhost:5984/ubmedia-remotefriendsdb');
+  // $rootScope.localFriendsDB = new PouchDB('http://localhost:5984/ubmedia-localfriendsdb');
+  // $rootScope.RemoteFriendsDB = new PouchDB('http://localhost:5984/ubmedia-remotefriendsdb');
 
   //$rootScope.localFriendsDB.destroy()
 
   
 
-  //sync
-  $rootScope.localMediaDB.sync($rootScope.remoteMediaDB, {
+  // //sync
+  $rootScope.syncMedia = PouchDB.sync($rootScope.localMediaDB, $rootScope.remoteMediaDB, {
     live: true,
     retry: true
   }).on('change', function (change) {
@@ -77,31 +78,31 @@ angular.module('starter', [
     // totally unhandled error (shouldn't happen)
   });
 
-  $rootScope.localCategoriesDB.sync($rootScope.remoteCategoriesDB, {
-    live: true,
-    retry: true
-  }).on('change', function (change) {
-    // console.log("yo, something changed!")
-  }).on('paused', function (info) {
-    // replication was paused, usually because of a lost connection
-  }).on('active', function (info) {
-    // replication was resumed
-  }).on('error', function (err) {
-    // totally unhandled error (shouldn't happen)
-  });
+  // $rootScope.localCategoriesDB.sync($rootScope.remoteCategoriesDB, {
+  //   live: true,
+  //   retry: true
+  // }).on('change', function (change) {
+  //   // console.log("yo, something changed!")
+  // }).on('paused', function (info) {
+  //   // replication was paused, usually because of a lost connection
+  // }).on('active', function (info) {
+  //   // replication was resumed
+  // }).on('error', function (err) {
+  //   // totally unhandled error (shouldn't happen)
+  // });
 
-  $rootScope.localFriendsDB.sync($rootScope.remoteCategoriesDB, {
-    live: true,
-    retry: true
-  }).on('change', function (change) {
-    // console.log("yo, something changed!")
-  }).on('paused', function (info) {
-    // replication was paused, usually because of a lost connection
-  }).on('active', function (info) {
-    // replication was resumed
-  }).on('error', function (err) {
-    // totally unhandled error (shouldn't happen)
-  });
+  // $rootScope.localFriendsDB.sync($rootScope.remoteCategoriesDB, {
+  //   live: true,
+  //   retry: true
+  // }).on('change', function (change) {
+  //   // console.log("yo, something changed!")
+  // }).on('paused', function (info) {
+  //   // replication was paused, usually because of a lost connection
+  // }).on('active', function (info) {
+  //   // replication was resumed
+  // }).on('error', function (err) {
+  //   // totally unhandled error (shouldn't happen)
+  // });
   //    [{"CategoryName":"Android","CategoryImage":"android.jpg"},{"CategoryName":"Apple","CategoryImage":"apple.jpg"},{"CategoryName":"Boxing","CategoryImage":"apple.jpg"},{"CategoryName":"Business","CategoryImage":"apple.jpg"},{"CategoryName":"Buzzworthy","CategoryImage":"buzz.jpg"},{"CategoryName":"Comics","CategoryImage":"apple.jpg"},{"CategoryName":"Cricket","CategoryImage":"apple.jpg"},{"CategoryName":"Culture","CategoryImage":"apple.jpg"},{"CategoryName":"Entertainment","CategoryImage":"apple.jpg"},{"CategoryName":"Fashion","CategoryImage":"apple.jpg"},{"CategoryName":"Football","CategoryImage":"football.jpg"},{"CategoryName":"Formula One","CategoryImage":"apple.jpg"},{"CategoryName":"Gossip","CategoryImage":"apple.jpg"},{"CategoryName":"Lifestyle","CategoryImage":"apple.jpg"},{"CategoryName":"Movies","CategoryImage":"apple.jpg"},{"CategoryName":"Music","CategoryImage":"apple.jpg"},{"CategoryName":"Nintendo","CategoryImage":"apple.jpg"},{"CategoryName":"Playstation 4","CategoryImage":"apple.jpg"},{"CategoryName":"Politics","CategoryImage":"apple.jpg"},{"CategoryName":"Rugby","CategoryImage":"apple.jpg"},{"CategoryName":"Science","CategoryImage":"apple.jpg"},{"CategoryName":"Sports","CategoryImage":"sports.jpg"},{"CategoryName":"Technology","CategoryImage":"tech.jpg"},{"CategoryName":"Tennis","CategoryImage":"apple.jpg"},{"CategoryName":"TV","CategoryImage":"apple.jpg"},{"CategoryName":"Video Games","CategoryImage":"apple.jpg"},{"CategoryName":"Xbox One","CategoryImage":"apple.jpg"}]
 
   $rootScope.grabImage = function() {

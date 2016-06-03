@@ -1,20 +1,38 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope, $rootScope, pouchBindingSimple, pouchCollection, $sce, $ionicScrollDelegate, $ionicSlideBoxDelegate) {
+.controller('DashCtrl', function($scope, $rootScope, $ionicLoading, pouchBindingSimple, pouchCollection, $sce, $ionicScrollDelegate, $ionicSlideBoxDelegate) {
     
+    $scope.show = function() {
+        $ionicLoading.show({
+            //template: '<div class="load"><div class="dot"></div><div class="outline"><span></span></div></div>',
+            template: '<div class="loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>',
+            duration: 220000
+        }).then(function(){
+            console.log("The loading indicator is now displayed");
+        });
+    };
+    $scope.hide = function(){
+        $ionicLoading.hide().then(function(){
+            console.log("The loading indicator is now hidden");
+        });
+    };
+    $scope.show()
     $ionicSlideBoxDelegate.update();
-  $scope.onUserDetailContentScroll = onUserDetailContentScroll
-  $scope.like = like
+    $scope.onUserDetailContentScroll = onUserDetailContentScroll
+    $scope.like = like
 
-  function like(){
-    $scope.liked = true
-  }
+    $scope.slideHasChanged = function(index){
+        $ionicScrollDelegate.scrollTop({"shouldAnimate": true});
+    }
+    function like(){
+        $scope.liked = true
+    }
 
-  function onUserDetailContentScroll(){
-    var scrollDelegate = $ionicScrollDelegate.$getByHandle('userDetailContent');
-    var scrollView = scrollDelegate.getScrollView();
-    $scope.$broadcast('userDetailContent.scroll', scrollView);
-  }
+    function onUserDetailContentScroll(){
+        var scrollDelegate = $ionicScrollDelegate.$getByHandle('userDetailContent');
+        var scrollView = scrollDelegate.getScrollView();
+        $scope.$broadcast('userDetailContent.scroll', scrollView);
+    }
     vm = $scope
     $scope.listView = true;
 
@@ -22,37 +40,44 @@ angular.module('starter.controllers', [])
 
     $scope.items = [];
 
-    $rootScope.localMediaDB.allDocs({
-        include_docs: true
-    }).then(function(result) {
-        for (var i = 0; i < result.rows.length; i++) {
-            var obj = {
-                "_id": result.rows[i].doc._id,
-                "mediaType": result.rows[i].doc.mediaType,
-                "mediaURL": result.rows[i].doc.mediaURL,
-                "title": result.rows[i].doc.title,
-                "summary": result.rows[i].doc.summary,
-                "story": result.rows[i].doc.story,
-                "latitude": result.rows[i].doc.latitude,
-                "longitude": result.rows[i].doc.longitude,
-                "location": result.rows[i].doc.location
-            }
+    
+
+    var dbLocal = new PouchDB('ubmedia-mediadb');
+    var dbRemote = new PouchDB('http://localhost:5984/ubmedia-mediadb');
+
+    dbLocal.allDocs({
+      include_docs: true
+    }).then(function (result) {
+        //console.log('re var dbLocal = new s is',result.rows);
+        for(var i=0;i<result.rows.length;i++){
+            //console.log(result.rows[i].doc)
+            var obj = result.rows[i].doc
             $scope.items.push(obj);
             $scope.$apply();
         }
-    }).catch(function(err) {
-        console.log(err);
-    })
+        console.log($scope.items)
+        //console.log($scope.items);
+    }).catch(function (err) {
+      console.log(err);
+    });
 
-    //$scope.mediaItems = pouchCollection('ubmedia-mediadb');
-    console.log($scope.items)
-    $scope.mediaItems = $scope.items;
-    console.log($scope.mediaItems);
+    
+    dbLocal.replicate.to(dbRemote,{live:true},function(err){
+        console.log(err);
+    });
     
 
     $scope.viewStory = function(story) {
         console.log(story)
     }
+
+    angular.element(document).ready(function () {
+             $scope.hide();
+          });
+    $scope.$on("$ionicView.loaded", function(event, data){
+       // handle event
+       //$ionicLoading.hide();
+    });
 
 
 })
@@ -190,16 +215,7 @@ angular.module('starter.controllers', [])
             $state.go('tab.dash');
         };
 
-        var designDoc = {
-            _id: '_design/fetchUserCategories',
-            views: {
-                'fetchUserCategories': {
-                    map: function(doc) {
-                        emit(doc.CategoryName, doc.CategoryImage);
-                    }.toString()
-                }
-            }
-        };
+        
 
 
 
